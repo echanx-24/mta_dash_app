@@ -1,48 +1,58 @@
-from dash import Dash, dcc, html,Input, Output, State, no_update
+from flask_app.dashboard.callbacks.data_backbacks import init_callback
+from flask_app.dashboard.mta._mta import MTA
 import dash_bootstrap_components as dbc
-from flask_app.dashboard.data._mta import MTA
+from dash import Dash, dcc, html
 
 def create_dash(server):
-
-    mta = MTA()
 
     app = Dash(
         server=server,
         routes_pathname_prefix="/dashboard/",
         suppress_callback_exceptions=False,
-        external_stylesheets=[dbc.themes.MINTY, "assets/stylesheet.css"]
+        external_stylesheets=[dbc.themes.ZEPHYR, "/static/stylesheet.css"]
     )
 
     app.layout = \
     html.Div([
-        dbc.NavbarSimple(brand="Welcome", dark=True, color="primary"),
+        dbc.Navbar(
+            html.Div([
+                html.H3("Welcome", className="titles")
+            ], className="title-container"), 
+            dark=True, color="primary", className="navigation"
+        ),
         dbc.Tabs([
-            dbc.Tab(label="Monthly",
-                    children=[
-                        dbc.Card(
-                            dbc.CardBody([
-                                html.Div([
-                                    dcc.Dropdown(options=["Subways", "Buses", "LIRR", "Metro-North", "Access-A-Ride","Bridges and Tunnels", "Staten Island Railway"], 
-                                                 value="Subways", multi=False, id="mta-dropwdown"),
-                                    dcc.Graph(id="mta-monthly-chart", figure=MTA.empty_chart()),
-                                    dcc.Graph(id="current-month-chart", figure=MTA.empty_chart())
-                                ], className="mta-chart-div")
-                            ])
-                        )
-                    ])
+            dbc.Tab(
+                label="Monthly",
+                children=[
+                    html.Div([
+
+                        dcc.Dropdown(options=["Subways", "Buses", "LIRR", "Metro-North", "Access-A-Ride","Bridges and Tunnels", "Staten Island Railway"], 
+                                     value="Subways", multi=False, id="mta-dropwdown"),
+
+                        html.Div([
+                            html.Div([
+                                html.Div(children="-", id="current-month", className="metric-value"),
+                                html.H3(children="Current Month", className="metric-title")
+                            ], className="metric-card first-card"),
+                            html.Div([
+                                html.Div(children="-", id="avg-riders", className="metric-value"),
+                                html.H3("Avg. Daily Riders", className="metric-title")
+                            ], className="metric-card")
+                        ], className="metric-parent"),
+
+                        html.Div([
+                            dcc.Graph(id="mta-monthly-chart", figure=MTA.empty_chart(), config={"displayModeBar": False})
+                        ], className="chart-div"),
+                        html.Div([
+                            dcc.Graph(id="current-month-chart", figure=MTA.empty_chart(), config={"displayModeBar": False})
+                        ], className="chart-div")
+
+                    ], className="mta-chart-div")
+                ]
+            )
         ])
-    ])
+    ], className="dashboard-container")
 
-    @app.callback([Output("mta-monthly-chart", "figure"),
-                   Output("current-month-chart", "figure")],
-                   Input("mta-dropwdown", "value"))
-    def update_chart(value):
-        if value is None:
-            return no_update
-        df, df_month = mta.historical_data()
-        fig_monthly = mta.historical_monthly_chart(df_month.copy(), value)
-        fig_current = mta.current_month_chart(df.copy(), value)
-
-        return fig_monthly, fig_current
+    init_callback(app)
 
     return app.server

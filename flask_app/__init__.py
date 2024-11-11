@@ -1,14 +1,12 @@
 from flask_app.dashboard import create_dash
-from flask import Flask, redirect
+from flask_app.main.routes import main
+from flask import Flask
 
 def create_app():
     app = Flask(__name__)
 
     plotly_dash = create_dash(app)
 
-    @app.route("/dashboard")
-    @app.route("/dashboard/")
-    def dash_app():
-        return redirect("/dashboard/")
+    app.register_blueprint(main)
     
     return app

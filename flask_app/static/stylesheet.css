@@ -1,0 +1,63 @@
+body {
+    background-color: #454545;
+}
+
+.dashboard-container {
+    background-color: white; min-height: 100vh; max-width: 125rem; margin: auto
+}
+
+.navigation {
+    height: 3.5rem;
+}
+
+.title-container {
+    height: 100%; margin-left: 1.5rem; text-align: center; display: flex
+}
+
+.titles {
+    color: white; font-family: Arial; font-weight: bold
+}
+
+#mta-dropwdown {
+    width: 30%
+}
+
+.metric-parent {
+    margin-top: 1rem; width: 100%; display: flex; justify-content: space-between; flex: 1
+}
+
+.metric-title {
+    background-color: #3459e6; color: white;
+}
+
+.metric-value {
+    line-height: 2.5rem; color: black
+}
+
+.metric-title, .metric-value {
+    font-size: min(1.25rem, 3vh)
+}
+
+.metric-value, .metric-title {
+    text-align: center; font-family: Arial; font-weight: bold; width: 100%; box-sizing: border-box;
+}
+
+.metric-card, .metric-title  {
+    border-radius: 5px; border: solid 1px #D2D2D2; padding: 5px 20px;
+}
+
+.first-card {
+    margin-left: 0 !important
+}
+
+.metric-card {
+    margin-left: 1rem; text-align: center; flex: 1
+}
+
+.chart-div {
+    border-radius: 5px; margin-top: 1rem; border: solid 1px #D2D2D2; height: 30rem
+}
+
+.mta-chart-div {
+    padding: 1%; width: 100%;
+}
