@@ -1,13 +1,13 @@
 from dash import Dash, dcc, html,Input, Output, State, no_update
 import dash_bootstrap_components as dbc
-from dashboard.data._mta import MTA
+from flask_app.dashboard.data._mta import MTA
 
-def create_dash():
+def create_dash(server):
 
     mta = MTA()
 
     app = Dash(
-        __name__,
+        server=server,
         routes_pathname_prefix="/dashboard/",
         suppress_callback_exceptions=False,
         external_stylesheets=[dbc.themes.MINTY, "assets/stylesheet.css"]
@@ -45,4 +45,4 @@ def create_dash():
 
         return fig_monthly, fig_current
 
-    return app
+    return app.server
