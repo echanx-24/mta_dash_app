@@ -16,13 +16,13 @@ def create_dash(server):
     html.Div([
         dbc.Navbar(
             html.Div([
-                html.H3("Welcome", className="titles")
+                html.H3("MTA Transit Dashboard", className="titles")
             ], className="title-container"), 
             dark=True, color="primary", className="navigation"
         ),
         dbc.Tabs([
             dbc.Tab(
-                label="Monthly",
+                label="Monthly", tab_class_name="tab-custom",
                 children=[
                     html.Div([
 
@@ -32,19 +32,32 @@ def create_dash(server):
                         html.Div([
                             html.Div([
                                 html.Div(children="-", id="current-month", className="metric-value"),
-                                html.H3(children="Current Month", className="metric-title")
+                                html.H3(children="Current Month Riders", className="metric-title")
                             ], className="metric-card first-card"),
                             html.Div([
-                                html.Div(children="-", id="avg-riders", className="metric-value"),
+                                html.Div(children="-", id="avg-daily-riders", className="metric-value"),
                                 html.H3("Avg. Daily Riders", className="metric-title")
+                            ], className="metric-card"),
+                            html.Div([
+                                html.Div(children="-", id="avg-monthly-riders", className="metric-value"),
+                                html.H3("Avg. Monthly Riders", className="metric-title")
+                            ], className="metric-card"),
+                            html.Div([
+                                html.Div(children="-", id="percent-total", className="metric-value"),
+                                html.H3("% of Total", className="metric-title")
                             ], className="metric-card")
                         ], className="metric-parent"),
 
                         html.Div([
-                            dcc.Graph(id="mta-monthly-chart", figure=MTA.empty_chart(), config={"displayModeBar": False})
-                        ], className="chart-div"),
+                            html.Div([
+                                dcc.Graph(id="mta-monthly-chart", figure=MTA.empty_chart(), className="chart", config={"displayModeBar": False})
+                            ], className="chart-child first-card"),
+                            html.Div([
+                                dcc.Graph(id="mta-moving-avg", figure=MTA.empty_chart(), className="chart", config={"displayModeBar": False})
+                            ], className="chart-child")
+                        ], className="chart-combined"),
                         html.Div([
-                            dcc.Graph(id="current-month-chart", figure=MTA.empty_chart(), config={"displayModeBar": False})
+                            dcc.Graph(id="percent-pre-pandemic", figure=MTA.empty_chart(), className="chart", config={"displayModeBar": False})
                         ], className="chart-div")
 
                     ], className="mta-chart-div")

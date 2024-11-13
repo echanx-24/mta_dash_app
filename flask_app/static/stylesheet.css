@@ -3,15 +3,21 @@ body {
 }
 
 .dashboard-container {
-    background-color: white; min-height: 100vh; max-width: 125rem; margin: auto
+    background-color: white; min-height: 100vh; max-width: 125rem; margin: auto; background-color: #e8e8e8
 }
 
 .navigation {
     height: 3.5rem;
 }
 
+.nav {
+    background-color: white !important;
+}
+
+.tab-custom {font-size: 18px !important; font-weight: bold !important}
+
 .title-container {
-    height: 100%; margin-left: 1.5rem; text-align: center; display: flex
+    height: 100%; margin-left: 0.75rem; text-align: center; display: flex
 }
 
 .titles {
@@ -27,15 +33,11 @@ body {
 }
 
 .metric-title {
-    background-color: #3459e6; color: white;
+    background-color: #3459e6; color: white; font-size: min(1.25rem, 3vh); padding: 5px 10px; margin: 0
 }
 
 .metric-value {
-    line-height: 2.5rem; color: black
-}
-
-.metric-title, .metric-value {
-    font-size: min(1.25rem, 3vh)
+    color: black; font-size: min(1.5rem, 3.5vh)
 }
 
 .metric-value, .metric-title {
@@ -43,7 +45,7 @@ body {
 }
 
 .metric-card, .metric-title  {
-    border-radius: 5px; border: solid 1px #D2D2D2; padding: 5px 20px;
+    border-radius: 5px; border: solid 1px #D2D2D2;
 }
 
 .first-card {
@@ -51,11 +53,23 @@ body {
 }
 
 .metric-card {
-    margin-left: 1rem; text-align: center; flex: 1
+    margin-left: 1rem; text-align: center; flex: 1; background-color: white; padding: 10px 20px;
 }
 
-.chart-div {
-    border-radius: 5px; margin-top: 1rem; border: solid 1px #D2D2D2; height: 30rem
+.chart-combined {
+    display: flex; justify-content: space-between; flex: 1
+}
+
+.chart-child {
+    flex: 1; margin-left: 1rem
+}
+
+.chart, #current-month-chart, .chart-child {
+    height: 27.5rem
+}
+
+.chart-div, .chart-child {
+    border-radius: 5px; margin-top: 1rem; border: solid 1px #D2D2D2; background-color: white;
 }
 
 .mta-chart-div {
