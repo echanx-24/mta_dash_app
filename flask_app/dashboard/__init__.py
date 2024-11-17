@@ -25,9 +25,12 @@ def create_dash(server):
                 label="Monthly", tab_class_name="tab-custom",
                 children=[
                     html.Div([
-
-                        dcc.Dropdown(options=["Subways", "Buses", "LIRR", "Metro-North", "Access-A-Ride","Bridges and Tunnels", "Staten Island Railway"], 
-                                     value="Subways", multi=False, id="mta-dropwdown"),
+                        
+                        html.Div([
+                            dcc.Dropdown(options=["Subways", "Buses", "LIRR", "Metro-North", "Access-A-Ride","Bridges and Tunnels", "Staten Island Railway"], 
+                                         value="Subways", multi=False, id="mta-dropwdown"),
+                            html.Button("Run", id="mta-btn")
+                        ], className="dropdown-container"),
 
                         html.Div([
                             html.Div([
@@ -35,12 +38,20 @@ def create_dash(server):
                                 html.H3(children="Current Month Riders", className="metric-title")
                             ], className="metric-card first-card"),
                             html.Div([
+                                html.Div(children="-", id="avg-monthly-riders", className="metric-value"),
+                                html.H3("Avg. Monthly Riders", className="metric-title")
+                            ], className="metric-card"),
+                            html.Div([
                                 html.Div(children="-", id="avg-daily-riders", className="metric-value"),
                                 html.H3("Avg. Daily Riders", className="metric-title")
                             ], className="metric-card"),
                             html.Div([
-                                html.Div(children="-", id="avg-monthly-riders", className="metric-value"),
-                                html.H3("Avg. Monthly Riders", className="metric-title")
+                                html.Div(children="-", id="avg-growth", className="metric-value"),
+                                html.H3("Avg. Growth (M)", className="metric-title")
+                            ], className="metric-card"),
+                            html.Div([
+                                html.Div(children="-", id="growth", className="metric-value"),
+                                html.H3("Growth Since Pandemic", className="metric-title")
                             ], className="metric-card"),
                             html.Div([
                                 html.Div(children="-", id="percent-total", className="metric-value"),

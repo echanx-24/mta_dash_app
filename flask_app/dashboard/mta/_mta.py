@@ -55,6 +55,8 @@ class MTA:
         col = self.col_map[key]
         df = df[df["current_month_flag"] == 0]
         n = df["month_end"].count()
+        avg_growth = f"{sum(df[(col, "sum")].pct_change().fillna(0)) / (n-1):.2%}"
+        growth_since_pan = f"{(df[(col, "sum")][n-1]/df[(col, "sum")][0]) - 1:.2%}"
 
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=df["month_end"], y=df[(col, "sum")], name=f"<b>{col}</b>", hovertemplate="<b>%{y:,d}</b>", mode="lines", line=dict(width=3, color="#609967"), 
@@ -62,14 +64,14 @@ class MTA:
         fig.add_hline(y=int(df[(col, "sum")][0]), line_dash="dash", line_width=2.5, line_color="black")
 
         fig.update_xaxes(gridcolor="#D2D2D2", showline=False, rangeslider_visible=False, range=[df["month_end"][0], df["month_end"][n-1]], 
-                        tickfont=dict(size=16, color="black", family="Arial"), tickformat="%b<br>'%y")
+                         tickfont=dict(size=16, color="black", family="Arial"), tickformat="%b<br>'%y")
         fig.update_yaxes(gridcolor="#D2D2D2", side="right", tickformat=",", zerolinewidth=1, zerolinecolor="#D2D2D2", tickfont=dict(size=16, color="black", family="Arial"))
         fig.update_layout(hovermode="x", plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)", dragmode=False, margin=dict(b=50),
                           legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right",x=1, font=dict(size=18, color="black", family="Arial")),
                           title=dict(text=f"<b>Total Monthly {key} Riders</b>", font=dict(size=20, color="black", family="Arial")),
                           hoverlabel=dict(font=dict(size=16, family="Arial", color="white")))
         
-        return fig
+        return fig, avg_growth, growth_since_pan
     
     def moving_average(self, df: pd.DataFrame, key: str) -> go.Figure:
         col = self.col_map[key]
@@ -80,6 +82,7 @@ class MTA:
 
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=df["Date"], y=df["SMA"], name=f"<b>SMA</b>", hovertemplate="<b>%{y:,d}</b>", mode="lines", line=dict(color="#a30000", width=2.5)))
+        fig.add_hline(y=df["SMA"][0], line_dash="dash", line_width=2.5, line_color="black")
 
         fig.update_xaxes(gridcolor="#D2D2D2", showline=False, rangeslider_visible=False, range=[df["month_end"][0], df["month_end"][n-1]], 
                          tickfont=dict(size=16, color="black", family="Arial"), tickformat="%b<br>'%y")

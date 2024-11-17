@@ -24,6 +24,17 @@ body {
     color: white; font-family: Arial; font-weight: bold
 }
 
+.dropdown-container {
+    width: 100%; display: flex
+}
+
+#mta-btn {
+    margin-left: 1rem; background-color: #3459e6; color: white; font-size: min(1.05rem, 2.5vh); padding: 5px 10px; border-radius: 5px;
+    border: solid 1px rgba(0,0,0,0)
+}
+
+#mta-btn, #mta-dropwdown {display: inline-block}
+
 #mta-dropwdown {
     width: 30%
 }
@@ -33,7 +44,7 @@ body {
 }
 
 .metric-title {
-    background-color: #3459e6; color: white; font-size: min(1.25rem, 3vh); padding: 5px 10px; margin: 0
+    background-color: #3459e6; color: white; font-size: min(1.05rem, 2.5vh); padding: 5px 10px; margin: 0
 }
 
 .metric-value {
@@ -44,7 +55,7 @@ body {
     text-align: center; font-family: Arial; font-weight: bold; width: 100%; box-sizing: border-box;
 }
 
-.metric-card, .metric-title  {
+.metric-card, .metric-title {
     border-radius: 5px; border: solid 1px #D2D2D2;
 }
 
