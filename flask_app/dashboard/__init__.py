@@ -1,9 +1,15 @@
 from flask_app.dashboard.callbacks.data_backbacks import init_callback
-from flask_app.dashboard.mta._mta import MTA
+from flask_app.dashboard.components.SummaryTab import summary_tab
+from flask_app.dashboard.components.MonthlyTab import monthly_tab
+from flask_app.dashboard._mta import MTA
 import dash_bootstrap_components as dbc
-from dash import Dash, dcc, html
+from dash import Dash, html
 
 def create_dash(server):
+
+    mta = MTA()
+    df, df_group, df_current = mta.historical_data()
+    summary = mta.summary_chart(df_group.copy())
 
     app = Dash(
         server=server,
@@ -21,62 +27,11 @@ def create_dash(server):
             dark=True, color="primary", className="navigation"
         ),
         dbc.Tabs([
-            dbc.Tab(
-                label="Monthly", tab_class_name="tab-custom",
-                children=[
-                    html.Div([
-                        
-                        html.Div([
-                            dcc.Dropdown(options=["Subways", "Buses", "LIRR", "Metro-North", "Access-A-Ride","Bridges and Tunnels", "Staten Island Railway"], 
-                                         value="Subways", multi=False, id="mta-dropwdown"),
-                            html.Button("Run", id="mta-btn")
-                        ], className="dropdown-container"),
-
-                        html.Div([
-                            html.Div([
-                                html.Div(children="-", id="current-month", className="metric-value"),
-                                html.H3(children="Current Month Riders", className="metric-title")
-                            ], className="metric-card first-card"),
-                            html.Div([
-                                html.Div(children="-", id="avg-monthly-riders", className="metric-value"),
-                                html.H3("Avg. Monthly Riders", className="metric-title")
-                            ], className="metric-card"),
-                            html.Div([
-                                html.Div(children="-", id="avg-daily-riders", className="metric-value"),
-                                html.H3("Avg. Daily Riders", className="metric-title")
-                            ], className="metric-card"),
-                            html.Div([
-                                html.Div(children="-", id="avg-growth", className="metric-value"),
-                                html.H3("Avg. Growth (M)", className="metric-title")
-                            ], className="metric-card"),
-                            html.Div([
-                                html.Div(children="-", id="growth", className="metric-value"),
-                                html.H3("Growth Since Pandemic", className="metric-title")
-                            ], className="metric-card"),
-                            html.Div([
-                                html.Div(children="-", id="percent-total", className="metric-value"),
-                                html.H3("% of Total", className="metric-title")
-                            ], className="metric-card")
-                        ], className="metric-parent"),
-
-                        html.Div([
-                            html.Div([
-                                dcc.Graph(id="mta-monthly-chart", figure=MTA.empty_chart(), className="chart", config={"displayModeBar": False})
-                            ], className="chart-child first-card"),
-                            html.Div([
-                                dcc.Graph(id="mta-moving-avg", figure=MTA.empty_chart(), className="chart", config={"displayModeBar": False})
-                            ], className="chart-child")
-                        ], className="chart-combined"),
-                        html.Div([
-                            dcc.Graph(id="percent-pre-pandemic", figure=MTA.empty_chart(), className="chart", config={"displayModeBar": False})
-                        ], className="chart-div")
-
-                    ], className="mta-chart-div")
-                ]
-            )
+            dbc.Tab(label="Summary", tab_class_name="tab-custom", children=[summary_tab(summary)]),
+            dbc.Tab(label="Monthly", tab_class_name="tab-custom", children=[monthly_tab()])
         ])
     ], className="dashboard-container")
 
-    init_callback(app)
+    init_callback(app, mta, df, df_group, df_current)
 
     return app.server

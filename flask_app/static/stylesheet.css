@@ -14,7 +14,7 @@ body {
     background-color: white !important;
 }
 
-.tab-custom {font-size: 18px !important; font-weight: bold !important}
+.tab-custom {font-size: 18px !important; font-weight: bold !important; color: black !important}
 
 .title-container {
     height: 100%; margin-left: 0.75rem; text-align: center; display: flex

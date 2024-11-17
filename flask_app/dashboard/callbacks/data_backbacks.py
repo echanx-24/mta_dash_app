@@ -1,11 +1,8 @@
-from flask_app.dashboard.mta._mta import MTA
 from dash import Output, Input, State, no_update
+from flask_app.dashboard._mta import MTA
 import numpy as np
 
-def init_callback(app):
-
-    mta = MTA()
-    df, df_group, df_current = mta.historical_data()
+def init_callback(app, mta: MTA, df, df_group, df_current):
 
     total = 0
     for col in df.columns:
@@ -22,9 +19,10 @@ def init_callback(app):
     def update_chart(n_clicks, value):
         if value is None:
             return no_update
-        fig_monthly, avg_growth, growth = mta.historical_monthly_chart(df_group.copy(), value)
-        fig_sma = mta.moving_average(df.copy(), value)
-        fig_current = mta.pre_pandemic_percent(df.copy(), value)
+
+        fig_monthly, avg_growth, growth = mta.historical_monthly_chart(df_group, value)
+        fig_sma = mta.moving_average(df, value)
+        fig_current = mta.pre_pandemic_percent(df, value)
 
         return fig_monthly, fig_sma, avg_growth, growth, fig_current
     
@@ -37,9 +35,9 @@ def init_callback(app):
     def update_metric(n_clicks, value):
         if value is None:
             return no_update, no_update
-        x = mta.fetch_current(df_current, value)
-        y = mta.fetch_average(df_current, value)
+        current_total = mta.fetch(df_current, value, "sum")
+        avg_daily = mta.fetch(df_current, value, "mean")
         z = mta.fetch_average_month(df_group, value)
-        percent = f"{mta.fetch_total(df, value) / total:.2%}"
+        percent_total = f"{mta.fetch(df, value, "sum") / total:.2%}"
 
-        return f"{x:,d}", f"{y:,d}", f"{z:,d}",percent
+        return f"{current_total:,d}", f"{avg_daily:,d}", f"{z:,d}", percent_total
