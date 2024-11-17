@@ -134,14 +134,14 @@ class MTA:
         fig = go.Figure()
         cols, colors = list(df.columns[1::2]), ("#264653", "#287271", "#2A9D8F", "#8AB17D", "#E9C46A", "#F4A261", "#E76F51")
         for col, color in zip(cols, colors):
-            col_name = f"{col[0].split(":")[0]} MoM %"
-            df[col_name] = df[col].rolling(window=6, min_periods=1).mean()
-            fig.add_trace(go.Scatter(x=df["month_end"], y=df[col_name], name=f"<b>{col[0].split(":")[0]}</b>", line=dict(color=color, width=2.5), hovertemplate="%{y:.2s}"))
+            col_name = f"{col.split(":")[0]} MoM %"
+            df[col_name] = df[col].rolling(window=90, min_periods=1).mean()
+            fig.add_trace(go.Scatter(x=df["Date"], y=df[col_name], name=f"<b>{col.split(":")[0]}</b>", line=dict(color=color, width=2.5), hovertemplate="%{y:.2s}"))
 
-        fig.update_xaxes(gridcolor="#D2D2D2", showline=False, tickfont=dict(size=16, color="black", family="Arial"))
+        fig.update_xaxes(gridcolor="#D2D2D2", showline=False, tickfont=dict(size=16, color="black", family="Arial"), rangeslider_visible=True)
         fig.update_yaxes(gridcolor="#D2D2D2", side="right", tickformat=".2s", zerolinewidth=1, zerolinecolor="#D2D2D2", tickfont=dict(size=16, color="black", family="Arial"))
         fig.update_layout(legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right",x=1, font=dict(size=16, color="black", family="Arial")),
-                          title=dict(text=f"<b>6 Month Trending Average</b>", font=dict(size=20, color="black", family="Arial")), hovermode="x unified", 
+                          title=dict(text=f"<b>T90 Trending Daily Avg. Riders</b>", font=dict(size=20, color="black", family="Arial")), hovermode="x unified", 
                           paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", dragmode=False, margin=dict(l=50, b=50))
         
         return fig

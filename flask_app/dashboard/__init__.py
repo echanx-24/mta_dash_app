@@ -10,7 +10,7 @@ def create_dash(server):
     mta = MTA()
     df, df_group, df_current = mta.historical_data()
     summary_total = mta.summary_chart_totals(df_group.copy())
-    summary_avg = mta.summary_chart_avg(df_group.copy())
+    summary_avg = mta.summary_chart_avg(df.copy())
 
     app = Dash(
         server=server,
