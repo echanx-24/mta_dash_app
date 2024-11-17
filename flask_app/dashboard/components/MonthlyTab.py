@@ -18,7 +18,7 @@ def monthly_tab():
             html.Div([
                 html.Div(children="-", id="avg-monthly-riders", className="metric-value"),
                 html.H3("6 Month Avg. Monthly Riders", className="metric-title")
-            ], className="metric-card"),
+            ], className="metric-card first-card"),
             html.Div([
                 html.Div(children="-", id="avg-daily-riders", className="metric-value"),
                 html.H3("6 Month Avg. Daily Riders", className="metric-title")
