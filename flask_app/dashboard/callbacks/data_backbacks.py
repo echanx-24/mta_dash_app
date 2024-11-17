@@ -26,8 +26,7 @@ def init_callback(app, mta: MTA, df, df_group, df_current):
 
         return fig_monthly, fig_sma, avg_growth, growth, fig_current
     
-    @app.callback([Output("current-month", "children"),
-                   Output("avg-daily-riders", "children"),
+    @app.callback([Output("avg-daily-riders", "children"),
                    Output("avg-monthly-riders", "children"),
                    Output("percent-total", "children")],
                    Input("mta-btn", "n_clicks"),
@@ -35,9 +34,8 @@ def init_callback(app, mta: MTA, df, df_group, df_current):
     def update_metric(n_clicks, value):
         if value is None:
             return no_update, no_update
-        current_total = mta.fetch(df_current, value, "sum")
         avg_daily = mta.fetch(df_current, value, "mean")
         z = mta.fetch_average_month(df_group, value)
         percent_total = f"{mta.fetch(df, value, "sum") / total:.2%}"
 
-        return f"{current_total:,d}", f"{avg_daily:,d}", f"{z:,d}", percent_total
+        return f"{avg_daily:,d}", f"{z:,d}", percent_total

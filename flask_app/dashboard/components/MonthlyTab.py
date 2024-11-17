@@ -16,20 +16,16 @@ def monthly_tab():
 
         html.Div([
             html.Div([
-                html.Div(children="-", id="current-month", className="metric-value"),
-                html.H3(children="Current Month Riders", className="metric-title")
-            ], className="metric-card first-card"),
-            html.Div([
                 html.Div(children="-", id="avg-monthly-riders", className="metric-value"),
-                html.H3("Avg. Monthly Riders", className="metric-title")
+                html.H3("6 Month Avg. Monthly Riders", className="metric-title")
             ], className="metric-card"),
             html.Div([
                 html.Div(children="-", id="avg-daily-riders", className="metric-value"),
-                html.H3("Avg. Daily Riders", className="metric-title")
+                html.H3("6 Month Avg. Daily Riders", className="metric-title")
             ], className="metric-card"),
             html.Div([
                 html.Div(children="-", id="avg-growth", className="metric-value"),
-                html.H3("Avg. Growth (M)", className="metric-title")
+                html.H3("6 Month Avg. Growth (M)", className="metric-title")
             ], className="metric-card"),
             html.Div([
                 html.Div(children="-", id="growth", className="metric-value"),

@@ -9,7 +9,8 @@ def create_dash(server):
 
     mta = MTA()
     df, df_group, df_current = mta.historical_data()
-    summary = mta.summary_chart(df_group.copy())
+    summary_total = mta.summary_chart_totals(df_group.copy())
+    summary_avg = mta.summary_chart_avg(df_group.copy())
 
     app = Dash(
         server=server,
@@ -27,7 +28,7 @@ def create_dash(server):
             dark=True, color="primary", className="navigation"
         ),
         dbc.Tabs([
-            dbc.Tab(label="Summary", tab_class_name="tab-custom", children=[summary_tab(summary)]),
+            dbc.Tab(label="Summary", tab_class_name="tab-custom", children=[summary_tab(summary_total, summary_avg)]),
             dbc.Tab(label="Monthly", tab_class_name="tab-custom", children=[monthly_tab()])
         ])
     ], className="dashboard-container")
